@@ -1,0 +1,6 @@
+venv/
+*.pyc
+db.sqlite3
+worklog.txt
+inventory.xlsx
+untitled folder/

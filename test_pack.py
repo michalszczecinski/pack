@@ -1,4 +1,5 @@
 import unittest
+
 import pack
 
 
@@ -47,6 +48,23 @@ class TestCaseFunctions(unittest.TestCase):
         items_packed = pack.get_items_volume(self.inv, capacity)
         total_items_volume = items_packed.volume.sum()
         assert total_items_volume <= capacity
+
+    def test_rank_necessities(self):
+        expected_rank = 0
+        new_inv = pack.add_rank(self.inv)
+        actual_rank = new_inv.loc[new_inv['importance'] == 0, 'rank'].sum()
+        assert actual_rank == expected_rank
+
+    def test_rank_diversity(self):
+        full_inv = pack.produce_full_inventory(self.inv)
+        new_inv = pack.add_rank(full_inv)
+        category_counts = new_inv.query('importance != 0').groupby('meta_category')['number'].count()
+        assert category_counts.max()-category_counts.min() < 2
+
+    # def test_pack_necessities(self):
+    #     expected = self.inv.query('importance == 0')['description']
+    #     actual = pack.pack_necessities(self.inv)
+    #     assert actual == expected
 
 
 class TestCaseResults(unittest.TestCase):
