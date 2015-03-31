@@ -33,17 +33,14 @@ python pack.py -d 2 -v 20000
 2. Decluterring stuff, with ambitious asspiration to fit all possessions in two large suitcases. :) 
 3. Going for two weeks holiday to a hot country.
 
-
-## List of criterias
-
 ## Metadata definitions
 
-number - number of items, you dont want to type each socks you posess..
-description - unique id of an item, for example "black versache trousers"
-importance - how necessary the item is , 0 is the lowest.Items with 0 will be packed in the first priority and reported if they dont fit in the baggage.
-options - custom tags that can raise the importance of items, for example +dqncing will prioritize dancing shoes, +hot will prioritize shorts, and importantly +swim will remind you about those swimming googles!..
-meta_category - meta data describing item like for example shoes, bottom , top etc. Used for example to make sure you dont just take 5 shirts and no trousers ;)
-volume - approximate volume, used to pack number of items that fits the specified size of the baggage.
+- number - number of items, you dont want to type each socks you posess..
+- description - unique id of an item, for example "black versache trousers"
+- importance - how necessary the item is , 0 is the lowest.Items with 0 will be packed in the first priority and reported if they dont fit in the baggage.
+- options - custom tags that can raise the importance of items, for example +dqncing will prioritize dancing shoes, +hot will prioritize shorts, and importantly +swim will remind you about those swimming googles!..
+- meta_category - meta data describing item like for example shoes, bottom , top etc. Used - for example to make sure you dont just take 5 shirts and no trousers ;)
+- volume - approximate volume, used to pack number of items that fits the specified size of the baggage.
 comments - any additional info, for example why the item is important or other details.
 
 ## Asumptions
@@ -54,9 +51,9 @@ comments - any additional info, for example why the item is important or other d
 
 ## Additional Info
 
-1 backpack - 43 x 33 x 13, 20 litres
-1 small bag - 56 x 45 x 25 cm - 63 litres, weight 10 kg
-1 large bag = 90 x 75 x 43 cm - 290 litres, weight 23 kg
+- 1 backpack - 43 x 33 x 13, 20 litres
+- 1 small bag - 56 x 45 x 25 cm - 63 litres, weight 10 kg
+- 1 large bag = 90 x 75 x 43 cm - 290 litres, weight 23 kg
 
 
 ## To do
@@ -64,7 +61,6 @@ comments - any additional info, for example why the item is important or other d
 - saving and reading list
 - optimizing for weight
 - convenience arguments for custom baggage sizes (backpack, hand baggage etc)
-
 
 
 ## Bonus
