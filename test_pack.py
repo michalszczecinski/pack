@@ -85,6 +85,13 @@ class TestCaseFunctions(unittest.TestCase):
         actual_importance = new_inv[new_inv['options'].isin(options)]['rank'].max()
         assert actual_importance == expected_importance
 
+    def test_get_items_weight(self):
+        weight = 1000
+        full_inv = pack.produce_full_inventory(self.inv)
+        new_inv = pack.add_rank(full_inv)
+        new_inv = pack.get_items_weight(new_inv, weight)[0]
+        assert weight <= new_inv['weight'].sum()
+
 
 class TestCaseResults(unittest.TestCase):
 

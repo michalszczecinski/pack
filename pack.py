@@ -14,6 +14,7 @@ import pandas as pd
 parser = argparse.ArgumentParser(description='Pack Command Line')
 parser.add_argument('-d', default=2, type=int, dest='days')
 parser.add_argument('-v', default=20000, type=int, dest='volume')
+parser.add_argument('-w', default=20000, type=int, dest='weight')
 parser.add_argument('-s', default=None, type=str, dest='save')
 parser.add_argument('-o', default=[], metavar='N', type=str, dest='options', nargs='+',
                     help='a list of options to prioritize')
@@ -69,14 +70,18 @@ def get_items_volume(df, volume):
     return df.query('volume_cumsum <= @volume'), df.query('volume_cumsum > @volume')
 
 
-def get_items(inv, days=2, baggage=1, options=[]):
-    # inv = inv[inv.importance == 0]
-    inv['number_needed'] = days / inv['duration']
-    inv['number_needed'] = inv['number_needed'].fillna(1).round()  # xx should always round to nearest top integer
-    inv['number_taken'] = inv[['number', 'number_needed']].fillna(1).apply(min, axis=1)
-    inv['lists'] = inv.apply(lambda x: [x['item']] * int(x['number_taken']), axis=1)
-    items = inv['lists'].sum()
-    return list(items)
+# def get_items(inv, days=2, baggage=1, options=[]):
+#     # inv = inv[inv.importance == 0]
+#     inv['number_needed'] = days / inv['duration']
+#     inv['number_needed'] = inv['number_needed'].fillna(1).round()  # xx should always round to nearest top integer
+#     inv['number_taken'] = inv[['number', 'number_needed']].fillna(1).apply(min, axis=1)
+#     inv['lists'] = inv.apply(lambda x: [x['item']] * int(x['number_taken']), axis=1)
+#     items = inv['lists'].sum()
+#     return list(items)
+
+def get_items_weight(df, weight):
+    df['weight_cumsum'] = df.sort('rank')['weight'].cumsum()
+    return df.query('weight_cumsum <= @weight'), df.query('weight_cumsum > @weight')
 
 
 def optimize_for_covering_body():
@@ -127,12 +132,13 @@ def produce_output(pack, cut_off, cat_stats, volume):
     print cut_off[cut_off['rank'] == 0][cols]
 
 
-def main(days, volume, options, save):
+def main(days, volume, weight, options, save):
     inv = load_inv()
     inv = produce_full_inventory(inv)
     pack = get_items_days(inv, days)
     pack = add_rank(pack, options)
     pack, cut_off = get_items_volume(pack, volume)
+    pack, cut_off = get_items_weight(pack, weight)
     cat_stats = produce_category_summary(pack, days)
     produce_output(pack, cut_off, cat_stats, volume)
     return pack, cut_off, cat_stats

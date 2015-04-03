@@ -1,4 +1,4 @@
-#pack: simple utility for producing list of items to pack based on inventory and number of criterias
+#pack: simple utility for producing list of items to pack based on inventory and number of criteria
 
 
 ##What is it
@@ -29,13 +29,13 @@ Output:
 python pack.py
 ```
 
-or to specify custom number of days (-d) and volume (-v)
+or to specify custom number of days (-d), volume (-v) or weight (-w):
 
 ```sh
-python pack.py -d 2 -v 20000
+python pack.py -d 2 -v 20000 -w 10000
 ```
 
-you can also specify additional options that you want to prioritize (can add list of tags in the inventory file 'options' field)
+you can also specify additional options that you want to prioritize (you can add list of tags in the inventory file 'options' field)
 
 ```sh
 python pack.py -o dance swim
@@ -50,6 +50,7 @@ python pack.py -o dance swim
 - options - custom tags that can raise the importance of items, for example +dqncing will prioritize dancing shoes, +hot will prioritize shorts, and importantly +swim will remind you about those swimming googles!..
 - meta_category - meta data describing item like for example shoes, bottom , top etc. Used - for example to make sure you dont just take 5 shirts and no trousers ;)
 - volume - approximate volume (currently in cm3), used to pack number of items that fits the specified size of the baggage.
+- weight - approximate weight (currently in g), used to cut off items that dont fit required weight criteria
 comments - any additional info, for example why the item is important or other details.
 
 ## Asumptions
