@@ -12,7 +12,7 @@ class TestCaseFunctions(unittest.TestCase):
     def test_full_inventory_len(self):
         expected = self.inv['number'].sum()
         actual = len(pack.produce_full_inventory(self.inv))
-        self.assertEqual(actual, expected)
+        assert (actual, expected)
 
     def test_full_inventory_item(self):
         # inventory with summarized values
@@ -84,22 +84,19 @@ class TestCaseResults(unittest.TestCase):
         """
         testing minimum when travelling
         """
-        items = pack.get_items(self.inv)
-        assert set(['toothbrush', 'laptop', 'phone']).intersection(set(items))
-
-    def test_item_duration(self):
-        days = 3
-        items = pack.get_items(self.inv, days=days)
-        count = len([x for x in items if x == 'underwear'])
-        assert count == days
+        full_inv = pack.produce_full_inventory(self.inv)
+        new_inv = pack.add_rank(full_inv)
+        items = pack.get_items_volume(new_inv, 20000)[0]['meta_category']
+        assert (set(['toothbrush', 'laptop', 'phone']).issubset(set(items)))
 
     def test_full_body_covered(self):
         days = 3
         volume = 20000
         inv = pack.load_inv()
         inv = pack.produce_full_inventory(inv)
+        inv = pack.add_rank(inv)
         baggage = pack.get_items_days(inv, days)
-        baggage = pack.get_items_volume(baggage, volume)
+        baggage = pack.get_items_volume(baggage, volume)[0]
         expected_parts = set(['shoes', 'socks', 'bottom', 'top'])
         actual_parts = set(baggage['meta_category'].unique())
         assert expected_parts.issubset(actual_parts)
