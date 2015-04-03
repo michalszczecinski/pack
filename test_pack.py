@@ -1,3 +1,4 @@
+
 import unittest
 
 import pack
@@ -11,7 +12,7 @@ class TestCaseFunctions(unittest.TestCase):
     def test_full_inventory_len(self):
         expected = self.inv['number'].sum()
         actual = len(pack.produce_full_inventory(self.inv))
-        assert actual == expected
+        self.assertEqual(actual, expected)
 
     def test_full_inventory_item(self):
         # inventory with summarized values
@@ -38,14 +39,24 @@ class TestCaseFunctions(unittest.TestCase):
         assert actual_no_items == expected_no_items
 
     def test_get_inv_volume_len(self):
+        """
+        testing that there is no more elements in the new inventory
+        cut on volume than was in original
+        """
         volume = 20000
         full_inv = pack.produce_full_inventory(self.inv)
-        new_inv = pack.get_items_volume(full_inv, volume)
+        new_inv = pack.add_rank(full_inv)
+        new_inv = pack.get_items_volume(new_inv, volume)
         assert len(new_inv) <= len(full_inv)
 
     def test_capacity(self):
+        """
+        testing that capacity is not bigger than one specified
+        """
         capacity = 20000
-        items_packed = pack.get_items_volume(self.inv, capacity)
+        full_inv = pack.produce_full_inventory(self.inv)
+        new_inv = pack.add_rank(full_inv)
+        items_packed = pack.get_items_volume(new_inv, capacity)[0]
         total_items_volume = items_packed.volume.sum()
         assert total_items_volume <= capacity
 
@@ -58,13 +69,10 @@ class TestCaseFunctions(unittest.TestCase):
     def test_rank_diversity(self):
         full_inv = pack.produce_full_inventory(self.inv)
         new_inv = pack.add_rank(full_inv)
+        new_inv = pack.get_items_volume(new_inv, 20000)[0]
         category_counts = new_inv.query('importance != 0').groupby('meta_category')['number'].count()
+        print category_counts
         assert category_counts.max()-category_counts.min() < 2
-
-    # def test_pack_necessities(self):
-    #     expected = self.inv.query('importance == 0')['description']
-    #     actual = pack.pack_necessities(self.inv)
-    #     assert actual == expected
 
 
 class TestCaseResults(unittest.TestCase):

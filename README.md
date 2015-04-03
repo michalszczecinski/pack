@@ -40,7 +40,7 @@ python pack.py -d 2 -v 20000
 - importance - how necessary the item is , 0 is the lowest.Items with 0 will be packed in the first priority and reported if they dont fit in the baggage.
 - options - custom tags that can raise the importance of items, for example +dqncing will prioritize dancing shoes, +hot will prioritize shorts, and importantly +swim will remind you about those swimming googles!..
 - meta_category - meta data describing item like for example shoes, bottom , top etc. Used - for example to make sure you dont just take 5 shirts and no trousers ;)
-- volume - approximate volume, used to pack number of items that fits the specified size of the baggage.
+- volume - approximate volume (currently in cm3), used to pack number of items that fits the specified size of the baggage.
 comments - any additional info, for example why the item is important or other details.
 
 ## Asumptions

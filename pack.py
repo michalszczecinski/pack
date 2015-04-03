@@ -7,7 +7,13 @@ import itertools
 import argparse
 import math
 
+import numpy as np
 import pandas as pd
+
+parser = argparse.ArgumentParser(description='Pack Command Line')
+parser.add_argument('-d', default=2, type=int, dest='days')
+parser.add_argument('-v', default=20000, type=int, dest='volume')
+parser.add_argument('-s', default=None, type=str, dest='save')
 
 
 def load_inv():
@@ -47,7 +53,7 @@ def add_rank(df, options=[]):
     # incentivize for diversity of meta categories,
     # to avoid situation where there is 5 shirts and no trousers
     df['units_cumsum'] = df.groupby('meta_category')['number'].apply(lambda x: x.cumsum())
-    df['rank'] = df.units_cumsum * df.importance
+    df.loc[:, 'rank'] = df.units_cumsum * df.importance  # slice copy
 
     # pack necessary items and specifically requested options first
     df.loc[df.importance == 0, 'rank'] = 0
@@ -78,20 +84,24 @@ def optimize_for_covering_body():
     pass
 
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Pack Command Line')
-    parser.add_argument('-d', default=2, type=int, dest='days')
-    parser.add_argument('-v', default=20000, type=int, dest='volume')
-    parser.add_argument('-s', default=None, type=str, dest='save')
+def produce_category_summary(df, days):
 
-    args = parser.parse_args()
+    cols = ['duration_cumsum', 'duration', 'units_cumsum']
+    cat_stats = df.groupby('meta_category').max()[cols]
+    # query_string = 'duration_cumsum != 0 and (duration_cumsum *  units_cumsum < @args.days)'
+    # cat_stats = cat_stats.query(query_string)
+    cat_stats['days'] = days
+    # filling needed with 1s for items that dont have duration, consider filling this at the top
+    # xx produces negative values
+    cat_stats['needed'] = (cat_stats.days / cat_stats.duration).apply(math.ceil).fillna(1)
+    cat_stats['deficit'] = cat_stats.needed - cat_stats.units_cumsum
+    cat_stats['washes_required'] = (cat_stats.needed / cat_stats.deficit).apply(math.ceil)
+    cat_stats['washes_required'].replace([np.inf, -np.inf], 0, inplace=True)
+    cat_stats.sort('washes_required', ascending=False, inplace=True)
+    return cat_stats
 
-    inv = load_inv()
-    inv = produce_full_inventory(inv)
-    pack = get_items_days(inv, args.days)
-    pack = add_rank(pack)
-    pack, cut_off = get_items_volume(pack, args.volume)
 
+def produce_output(pack, cut_off, cat_stats):
     print '============================================================='
     print 'total items packed:', pack.description.count()
     print 'total volume packed:', pack.volume.sum()
@@ -99,16 +109,8 @@ if __name__ == '__main__':
     print 'total items cut off:', cut_off.description.count()
     print 'total volume cut off:', cut_off.volume.sum()
     print '-------------------------------------------------------------'
-
     print 'category stats:'
-    cat_stats = pack.groupby('meta_category').max().query('duration_cumsum != 0 and (duration_cumsum *  units_cumsum < @args.days)')[['duration_cumsum', 'duration', 'units_cumsum']]
-    cat_stats['days'] = args.days
-
-    #  xx check and adjust ceil math later
-    cat_stats['needed'] = (cat_stats.days / (cat_stats.duration * cat_stats.units_cumsum)).apply(math.ceil)
-    cat_stats['deficit'] = cat_stats.needed - cat_stats.units_cumsum
-    cat_stats['washes_required'] = (cat_stats.needed / (cat_stats.units_cumsum * cat_stats.duration)).apply(math.ceil)
-    print cat_stats[['units_cumsum', 'needed', 'deficit', 'washes_required']]
+    print cat_stats[['units_cumsum', 'needed', 'deficit', 'duration', 'washes_required']]
     print '============================================================='
     print 'Pack:'
     pack = pack.sort(['rank', 'meta_category'])
@@ -118,3 +120,15 @@ if __name__ == '__main__':
     print 'Not packed but important:'
     print cut_off[cut_off['rank'] == 0][cols]
     print 'tests to add'
+
+if __name__ == '__main__':
+
+    args = parser.parse_args()
+    # call main function here instead
+    inv = load_inv()
+    inv = produce_full_inventory(inv)
+    pack = get_items_days(inv, args.days)
+    pack = add_rank(pack)
+    pack, cut_off = get_items_volume(pack, args.volume)
+    cat_stats = produce_category_summary(pack, args.days)
+    produce_output(pack, cut_off, cat_stats)
