@@ -15,6 +15,14 @@ Output:
 - summary statistics like volume packed, volume of items left out, any deficit of items and even things like number of washes required ;)) Yes, if you pack less, you might need to wash more!
 
 
+## Example use cases
+
+1. Going for weekend trip to London.
+2. Decluterring stuff, with ambitious asspiration to fit all possessions in two large suitcases. :) 
+3. Going for two weeks holiday to a hot country.
+4. Going to a Salsa Congress .. ;)
+
+
 ## How to run
 
 ```sh
@@ -27,11 +35,12 @@ or to specify custom number of days (-d) and volume (-v)
 python pack.py -d 2 -v 20000
 ```
 
-## Example use cases
+you can also specify additional options that you want to prioritize (can add list of tags in the inventory file 'options' field)
 
-1. Going for weekend trip to London.
-2. Decluterring stuff, with ambitious asspiration to fit all possessions in two large suitcases. :) 
-3. Going for two weeks holiday to a hot country.
+```sh
+python pack.py -o dance swim
+```
+
 
 ## Metadata definitions
 

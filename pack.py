@@ -6,6 +6,7 @@ from __future__ import division
 import itertools
 import argparse
 import math
+import sys
 
 import numpy as np
 import pandas as pd
@@ -14,6 +15,8 @@ parser = argparse.ArgumentParser(description='Pack Command Line')
 parser.add_argument('-d', default=2, type=int, dest='days')
 parser.add_argument('-v', default=20000, type=int, dest='volume')
 parser.add_argument('-s', default=None, type=str, dest='save')
+parser.add_argument('-o', default=[], metavar='N', type=str, dest='options', nargs='+',
+                    help='a list of options to prioritize')
 
 
 def load_inv():
@@ -101,11 +104,14 @@ def produce_category_summary(df, days):
     return cat_stats
 
 
-def produce_output(pack, cut_off, cat_stats):
+def produce_output(pack, cut_off, cat_stats, volume):
     print '============================================================='
     print 'total items packed:', pack.description.count()
-    print 'total volume packed:', pack.volume.sum()
+    print 'volume packed:', pack.volume.sum()
+    print 'volume left:', volume - pack.volume.sum()
     print '-------------------------------------------------------------'
+    print 'important items cut off:', cut_off[cut_off['rank'] == 0]['description'].count()
+    print 'important items volume cut off:', cut_off[cut_off['rank'] == 0]['volume'].sum()
     print 'total items cut off:', cut_off.description.count()
     print 'total volume cut off:', cut_off.volume.sum()
     print '-------------------------------------------------------------'
@@ -119,16 +125,22 @@ def produce_output(pack, cut_off, cat_stats):
     print '-------------------------------------------------------------'
     print 'Not packed but important:'
     print cut_off[cut_off['rank'] == 0][cols]
-    print 'tests to add'
+
+
+def main(days, volume, options, save):
+    inv = load_inv()
+    inv = produce_full_inventory(inv)
+    pack = get_items_days(inv, days)
+    pack = add_rank(pack, options)
+    pack, cut_off = get_items_volume(pack, volume)
+    cat_stats = produce_category_summary(pack, days)
+    produce_output(pack, cut_off, cat_stats, volume)
+    return pack, cut_off, cat_stats
+
 
 if __name__ == '__main__':
 
-    args = parser.parse_args()
-    # call main function here instead
-    inv = load_inv()
-    inv = produce_full_inventory(inv)
-    pack = get_items_days(inv, args.days)
-    pack = add_rank(pack)
-    pack, cut_off = get_items_volume(pack, args.volume)
-    cat_stats = produce_category_summary(pack, args.days)
-    produce_output(pack, cut_off, cat_stats)
+    kwargs = dict(parser.parse_args(sys.argv[1:])._get_kwargs())
+    print kwargs
+    main(**kwargs)
+    # sys.exit(main(**kwargs))

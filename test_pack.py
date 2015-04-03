@@ -74,6 +74,17 @@ class TestCaseFunctions(unittest.TestCase):
         print category_counts
         assert category_counts.max()-category_counts.min() < 2
 
+    def test_rank_options(self):
+        """
+        testing that rank function assigns priority to specified options
+        """
+        options = ['dance']
+        expected_importance = 0
+        full_inv = pack.produce_full_inventory(self.inv)
+        new_inv = pack.add_rank(full_inv, options)
+        actual_importance = new_inv[new_inv['options'].isin(options)]['rank'].max()
+        assert actual_importance == expected_importance
+
 
 class TestCaseResults(unittest.TestCase):
 
