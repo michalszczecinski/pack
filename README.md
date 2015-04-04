@@ -14,9 +14,9 @@ Inventory list in csv
 - list of items cut off (needed but not fitting criterias, for example exceeding volume)
 - item statistics like: packed, left, all_cut_off,important_cut_off, bag_pct_packed, important_pct_packed (by count, volume and weight)
 
-| ix | all_cut_off | imp_cut_off | packed | left | bag_pct_packed | imp_pct_packed |
+| ix | all_cut_off | important_cut_off | packed | left | bag_pct_packed | important_pct_packed |
 |---|---|---|---|---|---|---|                                                                           
-|number|18|0|33|NaN|nan%|100%|
+|number|18|0|33|NaN|NaN|100%|
 |volume|8120|0|19280|720|96%|100%|
 |weight|3600|0|6600|13400|33%|100%|
 
