@@ -22,48 +22,13 @@ Inventory list in csv
 
 - category statistics like: needed, deficit, washes_required
 
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>needed</th>
-      <th>deficit</th>
-      <th>washes_required</th>
-    </tr>
-    <tr>
-      <th>meta_category</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>top</th>
-      <td> 5</td>
-      <td> 2</td>
-      <td>  3</td>
-    </tr>
-    <tr>
-      <th>bottom</th>
-      <td> 2</td>
-      <td> 1</td>
-      <td>  2</td>
-    </tr>
-    <tr>
-      <th>socks</th>
-      <td> 5</td>
-      <td> 0</td>
-      <td>  0</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td> ...</td>
-      <td> ...</td>
-      <td> ...</td>
-    </tr>
-  </tbody>
-</table>
+| meta_category | needed | deficit | washes_required |
+|---|---|---|---|                                                                        
+|number|5|2|3|
+|volume|2|1|2|
+|weight|5|0|0|
+|...|...|...|...|
+
 
 ## Example use cases
 
