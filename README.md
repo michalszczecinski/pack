@@ -17,8 +17,8 @@ Output:
 
 ## Example use cases
 
-1. Going for weekend trip to London.
-2. Decluterring stuff, with ambitious asspiration to fit all possessions in two large suitcases. :) 
+1. Going for a weekend trip to London.
+2. Decluterring stuff, with ambitious aspiration to fit all possessions in two large suitcases. :) 
 3. Going for two weeks holiday to a hot country.
 4. Going to a Salsa Congress .. ;)
 
@@ -35,7 +35,7 @@ or to specify custom number of days (-d), volume (-v) or weight (-w):
 python pack.py -d 2 -v 20000 -w 10000
 ```
 
-you can also specify additional options that you want to prioritize (you can add list of tags in the inventory file 'options' field)
+you can also specify additional options that you want to prioritize (you can add list of tags in the inventory file in the 'options' field)
 
 ```sh
 python pack.py -o dance swim
@@ -51,7 +51,7 @@ python pack.py -o dance swim
 - meta_category - meta data describing item like for example shoes, bottom , top etc. Used - for example to make sure you dont just take 5 shirts and no trousers ;)
 - volume - approximate volume (currently in cm3), used to pack number of items that fits the specified size of the baggage.
 - weight - approximate weight (currently in g), used to cut off items that dont fit required weight criteria
-comments - any additional info, for example why the item is important or other details.
+- comments - any additional info, for example why the item is important or other details.
 
 ## Asumptions
 
@@ -69,7 +69,6 @@ comments - any additional info, for example why the item is important or other d
 ## To do
 
 - saving and reading list
-- optimizing for weight
 - convenience arguments for custom baggage sizes (backpack, hand baggage etc)
 
 
