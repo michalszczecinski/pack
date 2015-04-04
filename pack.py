@@ -137,7 +137,10 @@ def produce_output(pack, cut_off, cat_stats, item_stats, volume, weight):
     print item_stats
     print '-------------------------------------------------------------------------'
     print 'category stats:'
-    print cat_stats[['units_cumsum', 'needed', 'deficit', 'duration', 'washes_required']]
+    # cols = ['units_cumsum', 'needed', 'deficit', 'duration', 'washes_required']
+    cols = ['needed', 'deficit', 'washes_required']
+    print cat_stats[cols]
+    # print cat_stats[cols].to_html()
     print '========================================================================='
     print 'Pack:'
     pack = pack.sort(['rank', 'meta_category'])

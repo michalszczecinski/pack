@@ -6,30 +6,65 @@
 **pack** is a Python tool for automatically creating checklists for packing. 
 Basically if you dont want to think what you need to pack every time you travel or move, that is the tool for you :)
 
-**Input**:
+##Input:
 Inventory list in csv
 
-**Output**:
-- list of items to pack, 
+##Output:
+- **list of items to pack**
 - list of items cut off (needed but not fitting criterias, for example exceeding volume)
 - item statistics like:
 
-        all_cut_off  imp_cut_off  packed   left bag_pct_packed imp_pct_packed
-ix                                                                           
-number           18            0      33    NaN           nan%           100%
-volume         8120            0   19280    720            96%           100%
-weight         3600            0    6600  13400            33%           100%
+|ix |all_cut_off|imp_cut_off|packed|left|bag_pct_packed|imp_pct_packed|
+|---|---|---|---|---|---|                                                                           
+|number|18|0|33|NaN|nan%|100%|
+|volume|8120|0|19280|720|96%|100%|
+|weight|3600|0|6600|13400|33%|100%|
 
 
 - category statistics like:
 
-                 units_cumsum  needed  deficit  duration  washes_required
-meta_category                                                            
-top                         3       5        2         1                3
-bottom                      1       2        1         3                2
-socks                       5       5        0         1                0
-underwear                   5       5        0         1                0
-
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>needed</th>
+      <th>deficit</th>
+      <th>washes_required</th>
+    </tr>
+    <tr>
+      <th>meta_category</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>top</th>
+      <td> 5</td>
+      <td> 2</td>
+      <td>  3</td>
+    </tr>
+    <tr>
+      <th>bottom</th>
+      <td> 2</td>
+      <td> 1</td>
+      <td>  2</td>
+    </tr>
+    <tr>
+      <th>socks</th>
+      <td> 5</td>
+      <td> 0</td>
+      <td>  0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td> ...</td>
+      <td> ...</td>
+      <td> ...</td>
+    </tr>
+  </tbody>
+</table>
 
 
 
