@@ -14,6 +14,7 @@ Inventory list in csv
 - list of items cut off (needed but not fitting criterias, for example exceeding volume)
 - item statistics like:
 
+
 |ix |all_cut_off|imp_cut_off|packed|left|bag_pct_packed|imp_pct_packed|
 |---|---|---|---|---|---|                                                                           
 |number|18|0|33|NaN|nan%|100%|
@@ -22,6 +23,7 @@ Inventory list in csv
 
 
 - category statistics like:
+
 
 <table border="1" class="dataframe">
   <thead>
