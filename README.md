@@ -24,9 +24,9 @@ Inventory list in csv
 
 | meta_category | needed | deficit | washes_required |
 |---|---|---|---|                                                                        
-|number|5|2|3|
-|volume|2|1|2|
-|weight|5|0|0|
+|top|5|2|3|
+|bottom|2|1|2|
+|socks|5|0|0|
 |...|...|...|...|
 
 
