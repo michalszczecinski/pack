@@ -92,6 +92,20 @@ class TestCaseFunctions(unittest.TestCase):
         new_inv = pack.get_items_weight(new_inv, weight)[0]
         assert weight <= new_inv['weight'].sum()
 
+    def test_summary_item(self):
+        """
+        is total volume equal to packed + left volumes
+        """
+        volume = 2000
+        weight = 2000
+        full_inv = pack.produce_full_inventory(self.inv)
+        new_inv = pack.add_rank(full_inv)
+        packed, cut_off = pack.get_items_volume(new_inv, volume)
+        item_summary = pack.produce_items_summary(packed, cut_off, volume, weight)
+        packed_vol = item_summary.ix['volume', 'packed']
+        left_vol = item_summary.ix['volume', 'left']
+        assert volume == packed_vol + left_vol
+
 
 class TestCaseResults(unittest.TestCase):
 

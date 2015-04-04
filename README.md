@@ -6,13 +6,31 @@
 **pack** is a Python tool for automatically creating checklists for packing. 
 Basically if you dont want to think what you need to pack every time you travel or move, that is the tool for you :)
 
-Input:
+**Input**:
 Inventory list in csv
 
-Output:
+**Output**:
 - list of items to pack, 
 - list of items cut off (needed but not fitting criterias, for example exceeding volume)
-- summary statistics like volume packed, volume of items left out, any deficit of items and even things like number of washes required ;)) Yes, if you pack less, you might need to wash more!
+- item statistics like:
+
+        all_cut_off  imp_cut_off  packed   left bag_pct_packed imp_pct_packed
+ix                                                                           
+number           18            0      33    NaN           nan%           100%
+volume         8120            0   19280    720            96%           100%
+weight         3600            0    6600  13400            33%           100%
+
+
+- category statistics like:
+
+                 units_cumsum  needed  deficit  duration  washes_required
+meta_category                                                            
+top                         3       5        2         1                3
+bottom                      1       2        1         3                2
+socks                       5       5        0         1                0
+underwear                   5       5        0         1                0
+
+
 
 
 ## Example use cases
