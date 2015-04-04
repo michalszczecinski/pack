@@ -96,7 +96,7 @@ def produce_category_summary(df, days):
 
     # calculate washes required only for items that have duration
     cat_stats['washes_required'] = cat_stats['duration']
-    washes_required = (cat_stats.needed / cat_stats.deficit).apply(math.ceil)
+    washes_required = (cat_stats.deficit / cat_stats.units_cumsum).apply(math.ceil)
     cat_stats['washes_required'] = cat_stats['washes_required'].where(pd.isnull(cat_stats['duration']), washes_required)
     cat_stats['washes_required'].replace([np.inf, -np.inf], 0, inplace=True)
     cat_stats.sort('washes_required', ascending=False, inplace=True)
@@ -138,8 +138,8 @@ def produce_output(pack, cut_off, cat_stats, item_stats, volume, weight):
     print '-------------------------------------------------------------------------'
     print 'category stats:'
     # cols = ['units_cumsum', 'needed', 'deficit', 'duration', 'washes_required']
-    cols = ['needed', 'deficit', 'washes_required']
-    print cat_stats[cols]
+    cols = ['units_cumsum', 'needed', 'deficit', 'washes_required']
+    print cat_stats[cols].rename(columns={'units_cumsum': 'packed'})
     # print cat_stats[cols].to_html()
     print '========================================================================='
     print 'Pack:'

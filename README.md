@@ -22,13 +22,11 @@ Inventory list in csv
 
 - category statistics like: needed, deficit, washes_required
 
-| meta_category | needed | deficit | washes_required |
-|---|---|---|---|                                                                        
-|top|5|2|3|
-|bottom|2|1|2|
-|socks|5|0|0|
-|...|...|...|...|
-
+| meta_category | taken | needed | deficit | washes_required |
+|---|---|---|---|---|                                                                    
+|top|1|2|1|1
+|bottom|3|5|2|1
+|socks|5|5|0|0
 
 ## Example use cases
 
